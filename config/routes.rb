@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  devise_for :customer,
-  path: :customers,
-    :controllers => {
-      :registrations => "customer/registrations",
-      :sessions => "customer/sessions",
-      :passwords => "customer/passwords"
-    }
 
   devise_for :admin,
   path: :admins,
@@ -26,16 +19,10 @@ Rails.application.routes.draw do
     get "orders/current_user_order/:id" => "orders#current_user_order"
   end
 
-  namespace :customer, path: :customers do
-    resources :items
-    resources :cart_items
-    delete "cart_items" => "cart_items#destroy_all", as: "cart_item_destroy_all"
-
     resources :orders do
     collection do
       post "confirm"
       get "conplete"
     end
   end
-end
 end
