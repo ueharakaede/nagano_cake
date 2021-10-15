@@ -6,10 +6,6 @@ Rails.application.routes.draw do
     :sessions => "admin/sessions"
   }
 
-  get "/" => "customer/item#top", as: "top"
-  get "/about" => "customer/item#about", as: "about"
-  get "/customers" => "customer/customers#rule", as: "customer_rule"
-
   namespace :admin, path: :admins do
     resources :items
     resources :genres
