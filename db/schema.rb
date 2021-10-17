@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2021_10_12_063618) do
     t.integer "customer_id"
     t.string "name"
     t.string "postal_code"
-    t.string "addresses"
+    t.string "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -42,18 +42,19 @@ ActiveRecord::Schema.define(version: 2021_10_12_063618) do
   end
 
   create_table "customers", force: :cascade do |t|
-    t.string "last_name"
-    t.string "first_name"
-    t.string "last_name_kana"
-    t.string "first_name_kana"
-    t.string "email", default: "", null: false
+    t.string "email"
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "last_name"
+    t.string "first_name"
+    t.string "last_name_kana"
+    t.string "first_name_kana"
     t.string "postal_code"
     t.string "telephone_number"
-    t.boolean "is_active"
+    t.string "address"
+    t.boolean "is_deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_customers_on_email", unique: true
@@ -72,7 +73,7 @@ ActiveRecord::Schema.define(version: 2021_10_12_063618) do
     t.string "image_id"
     t.text "introduction"
     t.integer "price"
-    t.boolean "is_active"
+    t.boolean "is_active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -80,8 +81,9 @@ ActiveRecord::Schema.define(version: 2021_10_12_063618) do
   create_table "order_datails", force: :cascade do |t|
     t.integer "item_id"
     t.integer "order_id"
+    t.integer "amount", default: 0
+    t.integer "making_status", default: 0
     t.integer "price"
-    t.integer "making_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -93,8 +95,8 @@ ActiveRecord::Schema.define(version: 2021_10_12_063618) do
     t.string "name"
     t.integer "shipping_cost"
     t.integer "total_payment"
-    t.integer "payment_method"
-    t.integer "status"
+    t.integer "payment_method", default: 0
+    t.integer "status", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
