@@ -1,35 +1,37 @@
 Rails.application.routes.draw do
-
-  devise_for :admins, controllers: {
-    :sessions => 'admins/sessions',
-    :passwords => 'admins/passwords',
-    :registrations => 'admins/registrations'
-  }
+  root to: 'public/items#top'
 
   devise_for :customers, controllers: {
     sessions: 'customers/sessions',
-    passwords: 'customers/passwords',
+    password: 'customers/passwords',
     registrations: 'customers/registrations'
   }
 
+  devise_for :admins, controllers: {
+    sessions: 'admins/sessions',
+    passwords: 'admins/passwords',
+    registrations: 'admins/registrations'
+  }
+
   namespace :admin do
-    resources :items, only: [:index, :new, :create, :show, :edit, :update]
-    resources :genres, only: [:index, :create, :edit, :update]
-    resources :orders, only: [:index, :show, :update]
-    get 'top' => 'items#top'
-    resources :orders_datails, only: [:update]
+    get 'homes/top'
     resources :customers, only: [:index, :show, :edit, :update]
+    resources :genres, only: [:index, :create, :edit, :update]
+    resources :items, except: [:destroy]
+    resources :orders, only: [:show, :update]
+    resources :order_datails, only: [:update]
   end
 
-  root to: "items#top"
-  get 'about' => 'items#about'
-  resources :items, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-
-    resources :orders, only: [:new, :index, :show, :create] do
-    collection do
-      post 'confirm'
-      get 'conplete'
-      get 'thanks'
-    end
+  scope module: :public do
+    get 'items/about'
+    resources :items, only: [:index, :show]
+    delete 'cart_items/destroy_all'
+    resources :cart_items
+    get 'orders/complete'
+    resources :orders
+    get 'customers/unsubscribe'
+    patch 'customers/withdraw'
+    resources :customers
+    resources :address
   end
 end
